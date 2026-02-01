@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/price_is_right/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/price_is_right/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/price_is_right",
+  "projects": {
+    "matchmaking_service": {
+      "type": "application",
+      "root": "apps/matchmaking_service",
+      "entryFile": "main",
+      "sourceRoot": "apps/matchmaking_service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/matchmaking_service/tsconfig.app.json"
+      }
+    },
+    "price_is_right": {
+      "type": "application",
+      "root": "apps/price_is_right",
+      "entryFile": "main",
+      "sourceRoot": "apps/price_is_right/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/price_is_right/tsconfig.app.json"
+      }
+    }
+  }
+}
