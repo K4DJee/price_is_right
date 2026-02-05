@@ -91,7 +91,7 @@ export class RedisService {
 
     async saveMatch(matchId: string, data: Record<string, string>){
         await this.redis.hSet(`match:${matchId}`, data);
-        await this.redis.expire(`match:${matchId}`, 60);
+        await this.redis.expire(`match:${matchId}`, 600);//10 minutes
     }
 
     async getMatchInfo(matchId: string): Promise<MatchData | null>{
@@ -102,11 +102,11 @@ export class RedisService {
 
         return {
             matchId,
-            p1: hashData.p1 || '',
-            p2: hashData.p2 || '',
-            questionText: hashData.questionText || '',
-            correctAnswer: hashData.correctAnswer || '',
-            status: hashData.status || ''
+            p1: hashData.p1,
+            p2: hashData.p2,
+            questionText: hashData.questionText,
+            correctAnswer: hashData.answer,
+            status: hashData.status
         }
     }
 
@@ -118,11 +118,27 @@ export class RedisService {
             isCorrect: String(answerData.isCorrect),
            }        
         );
-        await this.redis.expire(`match:${matchId}:answer:${answerData.userId}`, 3600);
+        await this.redis.expire(`match:${matchId}:answer:${answerData.userId}`, 600);
     }
 
     async checkOtherPlayerAnswered(matchId: string, otherPlayerId: string){
-        await this.redis.exists(`match:${matchId}:answer:${otherPlayerId}`)
+        return await this.redis.exists(`match:${matchId}:answer:${otherPlayerId}`)
+    }
+
+    async getPlayerAnswer(matchId: string, userId: string){
+        const hashData =  await this.redis.hGetAll(`match:${matchId}:answer:${userId}`);
+
+        return {
+            userId,
+            answer: parseInt(hashData.answer),
+            isCorrect: Boolean(hashData.isCorrect)
+        }
+    }
+
+    async deleteMatchInfo(matchId: string, p1: string, p2: string){
+        await this.redis.del(`match:${matchId}`);
+        await this.redis.del(`match:${matchId}:answer:${p1}`);
+        await this.redis.del(`match:${matchId}:answer:${p2}`);
     }
 
         

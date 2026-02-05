@@ -19,7 +19,6 @@ model User {
   googleId  String?    @unique
   password  String?
   questions Question[]
-  matches   Match[]
   nickname String
   email     String     @unique
   score     Int        @default(0)
@@ -41,9 +40,14 @@ model Question {
 }
 
 model Match {
-  id    String   @id @default(uuid())
-  users User[]
-  date  DateTime @default(now()) @db.Timestamptz()
+  id            String   @id @default(uuid())
+  users         String[]
+  winner        String?
+  loser         String?
+  p1Answer      String?
+  p2Answer      String?
+  correctAnswer Float?
+  date          DateTime @default(now()) @db.Timestamptz()
 
   @@map("matches")
 }

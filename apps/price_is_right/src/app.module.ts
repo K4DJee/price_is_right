@@ -7,6 +7,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule } from '@nestjs/config';
 import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { QuestionsModule } from './questions/questions.module';
+import { MatchesModule } from './matches/matches.module';
 
 
 @Module({
@@ -15,6 +16,7 @@ import { QuestionsModule } from './questions/questions.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    MatchesModule,
     AuthModule, 
     DatabaseModule,
     MatchmakingModule,
@@ -28,6 +30,7 @@ import { QuestionsModule } from './questions/questions.module';
     }),
     MatchmakingModule,
     QuestionsModule,
+    MatchesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

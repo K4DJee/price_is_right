@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MatchmakingServiceController } from './matchmaking_service.controller';
 import { MatchmakingServiceService } from './matchmaking_service.service';
-import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
 import { EmailModule } from './email/email.module';
@@ -10,6 +9,7 @@ import path from 'path';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { JwtModule } from '@nestjs/jwt';
 import { MatchmakingGateway } from './matchmaking.gateway';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -37,6 +37,15 @@ import { MatchmakingGateway } from './matchmaking.gateway';
         },
       }),
       inject: [ConfigService],
+    }),
+    EventEmitterModule.forRoot({
+      wildcard: false,
+      delimiter: '.',
+      newListener: false,
+      removeListener: false,
+      maxListeners: 10,
+      verboseMemoryLeak: false,
+      ignoreErrors: false,
     }),
     RedisModule,
     EmailModule,
