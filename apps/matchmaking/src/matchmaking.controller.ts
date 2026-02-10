@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { MatchmakingServiceService } from './matchmaking_service.service';
+import { MatchmakingService } from './matchmaking.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { addingInMatchmakingQueue } from './dto/adding-in-matchmaking-queue.dto';
 import { OtpService } from './otp/otp.service';
@@ -8,9 +8,9 @@ import { VerifyOtpResetToken } from './otp/dto/verify-otp-reset-token.dto';
 import { VerifyResetToken } from './otp/dto/verify-reset-token.dto';
 
 @Controller()
-export class MatchmakingServiceController {
+export class MatchmakingController {
   constructor(
-    private readonly matchmakingServiceService: MatchmakingServiceService,
+    private readonly matchmakingServiceService: MatchmakingService,
     private readonly otpService: OtpService
   ) {}
 

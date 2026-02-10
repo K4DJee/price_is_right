@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { MatchmakingServiceModule } from './matchmaking_service.module';
+import { MatchmakingModule } from './matchmaking.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import path, { resolve } from 'path';
 import * as dotenv from 'dotenv';
@@ -11,7 +11,7 @@ async function bootstrap() {
   ? [process.env.NATS_SERVER_URL] 
   : ['nats://nats:4222'];//nats://localhost:4222
 
-  const app = await NestFactory.create(MatchmakingServiceModule);
+  const app = await NestFactory.create(MatchmakingModule);
 
   app.connectMicroservice<MicroserviceOptions>(
     {

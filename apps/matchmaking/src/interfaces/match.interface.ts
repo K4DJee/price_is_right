@@ -1,10 +1,10 @@
 export interface MatchData{
-    matchId: string,
-    p1: string,
-    p2: string,
-    questionText: string,
-    correctAnswer: string,
-    status: string
+    matchId:        string,
+    p1:             string,
+    p2:             string,
+    questionText:   string,
+    correctAnswer:  number,
+    status:         string
 }
 
 export interface MatchResult{
@@ -24,8 +24,8 @@ export interface MatchDataToDB{
     users: string[],
     winner?:string,
     loser?:string,
-    p1Answer?:string,
-    p2Answer?:string,
+    p1Answer?:number,
+    p2Answer?:number,
     correctAnswer?:number
 }
 

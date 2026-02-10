@@ -44,8 +44,8 @@ model Match {
   users         String[]
   winner        String?
   loser         String?
-  p1Answer      String?
-  p2Answer      String?
+  p1Answer      Float?
+  p2Answer      Float?
   correctAnswer Float?
   date          DateTime @default(now()) @db.Timestamptz()
 

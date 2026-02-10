@@ -10,7 +10,7 @@
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:pir:dev": "cd apps/price_is_right && npx ts-node-dev src/main.ts",
-    "start:matchmaking:dev": "cd apps/matchmaking_service && npx ts-node-dev src/main.ts",
+    "start:matchmaking:dev": "cd apps/matchmaking && npx ts-node-dev src/main.ts",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/price_is_right/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

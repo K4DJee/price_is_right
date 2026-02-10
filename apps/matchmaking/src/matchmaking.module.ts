@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MatchmakingServiceController } from './matchmaking_service.controller';
-import { MatchmakingServiceService } from './matchmaking_service.service';
+import { MatchmakingController } from './matchmaking.controller';
+import { MatchmakingService } from './matchmaking.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
 import { EmailModule } from './email/email.module';
@@ -51,7 +51,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     EmailModule,
     OtpModule,
   ],
-  controllers: [MatchmakingServiceController],
-  providers: [MatchmakingServiceService, MatchmakingGateway],
+  controllers: [MatchmakingController],
+  providers: [MatchmakingService, MatchmakingGateway],
 })
-export class MatchmakingServiceModule {}
+export class MatchmakingModule {}

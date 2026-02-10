@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { QuestionsModule } from './questions/questions.module';
 import { MatchesModule } from './matches/matches.module';
-
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -16,21 +16,23 @@ import { MatchesModule } from './matches/matches.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    UsersModule,
     MatchesModule,
-    AuthModule, 
+    AuthModule,
     DatabaseModule,
     MatchmakingModule,
     ThrottlerModule.forRoot({
-      throttlers:[
+      throttlers: [
         {
           ttl: 60000, //60 seconds
-          limit:10
-        }
-      ]
+          limit: 10,
+        },
+      ],
     }),
     MatchmakingModule,
     QuestionsModule,
     MatchesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

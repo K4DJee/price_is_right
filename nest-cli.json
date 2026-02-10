@@ -14,9 +14,9 @@
       "type": "application",
       "root": "apps/matchmaking_service",
       "entryFile": "main",
-      "sourceRoot": "apps/matchmaking_service/src",
+      "sourceRoot": "apps/matchmaking/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/matchmaking_service/tsconfig.app.json"
+        "tsConfigPath": "apps/matchmaking/tsconfig.app.json"
       }
     },
     "price_is_right": {

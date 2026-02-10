@@ -60,33 +60,56 @@ export class RedisService {
 
     //matchmaking logic
     async addPlayerToQueue(userId: string){
-        await this.redis
-            .multi()
-            .lPush('matchmaking_queue', userId)
-            .set(`mm:player:${userId}`, '1', {EX: 900})
-            .exec()
+        const result = await this.redis.eval(
+            `
+            -- пытаемся добавить пользователя в set
+            local added = redis.call('SADD', 'matchmaking:players', ARGV[1])
+    
+            -- если пользователь уже есть, ничего не делаем
+            if added == 0 then
+                return 0
+            end
+    
+            -- добавляем в очередь
+            redis.call('LPUSH', 'matchmaking_queue', ARGV[1])
+    
+            -- ставим ttl (например, защита от залипших игроков)
+            redis.call('SET', 'mm:player:' .. ARGV[1], '1', 'EX', 900)
+    
+            return 1
+            `,
+            {
+                keys: [],
+                arguments: [userId],
+            }
+        );
+    
+        return result === 1;
     }
 
     async popTwoPlayers():Promise<[string, string] | null>{
-        return await this.redis.eval(//Внутри Lua код, другие такие же запросы не будут выполняться
+        return await this.redis.eval(
             `
-            local p1 = redis.call('LPOP', 'matchmaking_queue')
-            local p2 = redis.call('LPOP', 'matchmaking_queue')
-
-            if p1 and p2 then 
+            local p1 = redis.call('RPOP', 'matchmaking_queue')
+            local p2 = redis.call('RPOP', 'matchmaking_queue')
+    
+            if p1 and p2 then
+                redis.call('SREM', 'matchmaking:players', p1)
+                redis.call('SREM', 'matchmaking:players', p2)
                 return {p1, p2}
             end
-
+    
             if p1 then
                 redis.call('LPUSH', 'matchmaking_queue', p1)
             end
-
+    
             return nil
-            `,{
-                keys: ['matchmaking_queue'],
-                arguments: []
-              }
-            ) as [string, string] | null;
+            `,
+            {
+                keys: [],
+                arguments: [],
+            }
+        ) as [string, string] | null;
     }
 
     async saveMatch(matchId: string, data: Record<string, string>){
@@ -105,7 +128,7 @@ export class RedisService {
             p1: hashData.p1,
             p2: hashData.p2,
             questionText: hashData.questionText,
-            correctAnswer: hashData.answer,
+            correctAnswer: parseFloat(hashData.answer),
             status: hashData.status
         }
     }

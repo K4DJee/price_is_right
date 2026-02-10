@@ -7,15 +7,36 @@ export class CreateMatchDto{
     @IsArray()
     @IsString({ each: true })
     @IsNotEmpty() 
-    usersIds: string[] 
+    users: string[] 
     @IsString()
     winner: string
     @IsString()
     loser: string
-    @IsString()
-    p1Answer: string
-    @IsString()
-    p2Answer: string
     @IsNumber()
+    p1Answer: number
+    @IsNumber()
+    p2Answer: number
+    @IsNumber()
+    correctAnswer: number
+}
+
+export class FinalizeMatchDto{
+    @IsString()
+    @IsNotEmpty()
+    id: string    
+    @IsString()
+    @IsNotEmpty()
+    winner: string
+    @IsString()
+    @IsNotEmpty()
+    loser: string
+    @IsNumber()
+    @IsNotEmpty()
+    p1Answer: number
+    @IsNumber()
+    @IsNotEmpty()
+    p2Answer: number
+    @IsNumber()
+    @IsNotEmpty()
     correctAnswer: number
 }

@@ -226,7 +226,7 @@ export class AuthService implements OnModuleInit {
       return response;
     } catch (error) {
       console.error('❌ Microservice error:', error);
-      return error;
+      return false;
     }
   }
 
